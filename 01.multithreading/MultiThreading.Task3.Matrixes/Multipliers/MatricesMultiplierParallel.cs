@@ -16,18 +16,18 @@ namespace MultiThreading.Task3.MatrixMultiplier.Multipliers
 
             Parallel.For(0, m1.RowCount, (i) =>
             {
-                Parallel.For(0, m2.ColCount, (j) =>
+                for(int j = 0; j < m2.ColCount; j++)
                 {
                     long sum = 0;
 
-                    Parallel.For(0, m1.ColCount, (k) =>
+                    for(int k = 0; k < m1.ColCount; k++)
                     {
                         var result = m1.GetElement(i, k) * m2.GetElement(k, j);
-                        Interlocked.Add(ref sum, result);
-                    });
+                        sum += result;
+                    }
 
                     resultMatrix.SetElement(i, j, sum);
-                });
+                }
             });
 
             watch.Stop();

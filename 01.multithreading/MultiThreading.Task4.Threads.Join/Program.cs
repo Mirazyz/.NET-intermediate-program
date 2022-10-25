@@ -30,21 +30,23 @@ namespace MultiThreading.Task4.Threads.Join
             Console.WriteLine();
 
             // feel free to add your code
-            CreateThread(10);
+            
+            CreateThreadJoin(10);
+            ThreadPool.QueueUserWorkItem((callback) => CreateThreadJoin(11));
 
             Console.ReadLine();
         }
 
-        static void CreateThread(int number)
+        static void CreateThreadJoin(int number)
         {
             if(number > 0)
             {
                 new Thread(() =>
                 {
-                    number--;
                     Console.WriteLine(number);
+                    number--;
 
-                    CreateThread(number);
+                    CreateThreadJoin(number);
                 }).Start();
             }
         }
