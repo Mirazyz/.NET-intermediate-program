@@ -11,7 +11,6 @@ namespace AsyncAwait.Task2.CodeReviewChallenge.Controllers;
 public class HomeController : Controller
 {
     private readonly IAssistant _assistant;
-
     private readonly IPrivacyDataService _privacyDataService;
 
     public HomeController(IAssistant assistant, IPrivacyDataService privacyDataService)
