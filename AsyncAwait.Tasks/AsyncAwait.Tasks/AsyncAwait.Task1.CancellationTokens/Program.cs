@@ -8,6 +8,8 @@
 */
 
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace AsyncAwait.Task1.CancellationTokens;
 
@@ -19,6 +21,8 @@ internal class Program
     /// <param name="args"></param>
     private static void Main(string[] args)
     {
+        // todo: make calculation asynchronous
+
         Console.WriteLine("Mentoring program L2. Async/await.V1. Task 1");
         Console.WriteLine("Calculating the sum of integers from 0 to N.");
         Console.WriteLine("Use 'q' key to exit...");
@@ -29,33 +33,42 @@ internal class Program
         var input = Console.ReadLine();
         while (input.Trim().ToUpper() != "Q")
         {
+            var ts = new CancellationTokenSource();
+            var ct = ts.Token;
+
             if (int.TryParse(input, out var n))
             {
-                CalculateSum(n);
+                CalculateSum(n, ct);
             }
             else
             {
                 Console.WriteLine($"Invalid integer: '{input}'. Please try again.");
-                Console.WriteLine("Enter N: ");
             }
 
             input = Console.ReadLine();
+
+            if (int.TryParse(input, out _))
+            {
+                ts.Cancel();
+                Console.WriteLine($"The task for {n} has been cancelled.");
+            }
         }
 
         Console.WriteLine("Press any key to continue");
         Console.ReadLine();
     }
 
-    private static void CalculateSum(int n)
+    private async static void CalculateSum(int n, CancellationToken ct)
     {
-        // todo: make calculation asynchronous
-        var sum = Calculator.Calculate(n);
-        Console.WriteLine($"Sum for {n} = {sum}.");
-        Console.WriteLine();
-        Console.WriteLine("Enter N: ");
-        // todo: add code to process cancellation and uncomment this line    
-        // Console.WriteLine($"Sum for {n} cancelled...");
+        Console.WriteLine($"The task for {n} started... Enter N to cancel the request and start another process:");
 
-        Console.WriteLine($"The task for {n} started... Enter N to cancel the request:");
+        var sum = await Calculator.Calculate(n, ct);
+
+        if (ct.IsCancellationRequested)
+        {
+            return;
+        }
+
+        Console.WriteLine($"Sum for {n} = {sum}.");
     }
 }
