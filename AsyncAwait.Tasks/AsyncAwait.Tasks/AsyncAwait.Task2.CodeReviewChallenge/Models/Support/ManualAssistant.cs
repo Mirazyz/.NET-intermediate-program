@@ -22,8 +22,7 @@ public class ManualAssistant : IAssistant
             var t = _supportService.RegisterSupportRequestAsync(requestInfo);
             Console.WriteLine(t.Status); // this is for debugging purposes
             Thread.Sleep(5000); // this is just to be sure that the request is registered
-            return await _supportService.GetSupportInfoAsync(requestInfo)
-                .ConfigureAwait(false);
+            return await _supportService.GetSupportInfoAsync(requestInfo);
         }
         catch (HttpRequestException ex)
         {
