@@ -43,6 +43,7 @@ internal class Program
             else
             {
                 Console.WriteLine($"Invalid integer: '{input}'. Please try again.");
+                Console.WriteLine("Enter N: ");
             }
 
             input = Console.ReadLine();
@@ -70,5 +71,6 @@ internal class Program
         }
 
         Console.WriteLine($"Sum for {n} = {sum}.");
+        Console.WriteLine("Enter N: ");
     }
 }
