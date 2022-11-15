@@ -24,6 +24,7 @@ namespace DataCaptureService
 
             watcher.Changed += new FileSystemEventHandler(OnChanged);
             watcher.EnableRaisingEvents = true;
+            watcher.Error += OnError;
         }
 
         private static void OnChanged(object sender, FileSystemEventArgs e)
