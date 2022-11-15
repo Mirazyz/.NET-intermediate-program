@@ -18,13 +18,21 @@ namespace DataCaptureService
             FileSystemWatcher watcher = new()
             {
                 Path = ServiceConstants.FolderPath,
-                NotifyFilter = NotifyFilters.LastWrite,
-                Filter = "*.txt*",
-                EnableRaisingEvents = true
+                EnableRaisingEvents = true,
+                Filter = "*.*",
+                NotifyFilter = NotifyFilters.Attributes
+                                 | NotifyFilters.CreationTime
+                                 | NotifyFilters.DirectoryName
+                                 | NotifyFilters.FileName
+                                 | NotifyFilters.LastAccess
+                                 | NotifyFilters.LastWrite
+                                 | NotifyFilters.Security
+                                 | NotifyFilters.Size
             };
 
             watcher.Changed += new FileSystemEventHandler(OnChanged);
             watcher.Created += new FileSystemEventHandler(OnCreated);
+            watcher.Deleted += new FileSystemEventHandler(OnDeleted);
             watcher.Error += OnError;
         }
 
@@ -37,9 +45,12 @@ namespace DataCaptureService
 
         private static void OnCreated(object sender, FileSystemEventArgs e)
         {
-            string message = $"Created: {e.FullPath}";
+            Console.WriteLine($"Created: {e.FullPath}");
+        }
 
-            Console.WriteLine(message);
+        private static void OnDeleted(object sender, FileSystemEventArgs e)
+        {
+            Console.WriteLine($"Deleted: {e.FullPath}");
         }
 
         private static void SendFile(byte[] file)
