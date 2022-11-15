@@ -4,8 +4,12 @@ namespace DataCaptureService
 {
     internal static class Broker
     {
-        internal static void SendFile(byte[] file)
+        internal static void SendFile(string path)
         {
+            var file = FileService.ConvertFileToBytes(path);
+
+            if (file is null) return;
+
             var factory = new ConnectionFactory();
             factory.Uri = new Uri(ServiceConstants.Uri);
 

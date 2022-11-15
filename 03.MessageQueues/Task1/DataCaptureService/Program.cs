@@ -41,31 +41,17 @@ namespace DataCaptureService
         {
             if (e.ChangeType != WatcherChangeTypes.Changed) return;
 
-            Console.WriteLine($"Changed: {e.FullPath}");
+            Console.WriteLine($"Changed: {e.FullPath}. Sending it over broker");
         }
 
         private static void OnCreated(object sender, FileSystemEventArgs e)
         {
-            Console.WriteLine($"Created: {e.FullPath}");
+            Console.WriteLine($"Created: {e.FullPath}. Sending it over broker");
         }
 
         private static void OnDeleted(object sender, FileSystemEventArgs e)
         {
-            Console.WriteLine($"Deleted: {e.FullPath}");
-        }
-
-        private static void SendFile(byte[] file)
-        {
-            var factory = new ConnectionFactory();
-            factory.Uri = new Uri(ServiceConstants.Uri);
-
-            var connection = factory.CreateConnection();
-            var channel = connection.CreateModel();
-
-            channel.BasicPublish(ServiceConstants.Exchange, "", null, file);
-
-            channel.Close();
-            connection.Close();
+            Console.WriteLine($"Deleted: {e.FullPath}. Sending it over broker");
         }
 
         private static void OnError(object sender, ErrorEventArgs e) =>
