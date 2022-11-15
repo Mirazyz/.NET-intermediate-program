@@ -53,5 +53,20 @@ namespace DataCaptureService
             channel.Close();
             connection.Close();
         }
+
+        private static void OnError(object sender, ErrorEventArgs e) =>
+            PrintException(e.GetException());
+
+        private static void PrintException(Exception? ex)
+        {
+            if (ex != null)
+            {
+                Console.WriteLine($"Message: {ex.Message}");
+                Console.WriteLine("Stacktrace:");
+                Console.WriteLine(ex.StackTrace);
+                Console.WriteLine();
+                PrintException(ex.InnerException);
+            }
+        }
     }
 }
