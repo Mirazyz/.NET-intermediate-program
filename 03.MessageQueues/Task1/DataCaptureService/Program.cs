@@ -19,11 +19,12 @@ namespace DataCaptureService
             {
                 Path = ServiceConstants.FolderPath,
                 NotifyFilter = NotifyFilters.LastWrite,
-                Filter = "*.*"
+                Filter = "*.txt*",
+                EnableRaisingEvents = true
             };
 
             watcher.Changed += new FileSystemEventHandler(OnChanged);
-            watcher.EnableRaisingEvents = true;
+            watcher.Created += new FileSystemEventHandler(OnCreated);
             watcher.Error += OnError;
         }
 
@@ -63,8 +64,7 @@ namespace DataCaptureService
             if (ex != null)
             {
                 Console.WriteLine($"Message: {ex.Message}");
-                Console.WriteLine("Stacktrace:");
-                Console.WriteLine(ex.StackTrace);
+                Console.WriteLine($"Stacktrace: {ex.StackTrace}");
                 Console.WriteLine();
                 PrintException(ex.InnerException);
             }
