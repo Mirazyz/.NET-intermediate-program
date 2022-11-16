@@ -5,5 +5,6 @@
         public const string Uri = "amqp://guest:guest@localhost:5672";
         public const string Exchange = "DataCaptureExchange";
         public const string FolderPath = @"C:\RabbitMQ\";
+        public static string FilePathToWrite = @$"C:\RabbitMQFiles\{Guid.NewGuid()}";
     }
 }

@@ -19,6 +19,12 @@
 
         public static void ConvertBytesToFile(byte[] fileBytes)
         {
+
+        }
+
+        public static void SaveBytesArrayToFile(string filePath, byte[] data, string fileExt = ".txt")
+        {
+            File.WriteAllBytes(filePath + fileExt, data);
         }
     }
 }

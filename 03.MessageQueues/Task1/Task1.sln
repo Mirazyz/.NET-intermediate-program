@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileHandlerService", "FileH
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextFileProcessingService", "TextFileProcessingService\TextFileProcessingService.csproj", "{75AA646C-0437-4910-932B-1A91029E7D35}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfFileProcessingService", "PdfFileProcessingService\PdfFileProcessingService.csproj", "{EA2FC1B5-CA80-47FA-82F3-6E086BE62660}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{75AA646C-0437-4910-932B-1A91029E7D35}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75AA646C-0437-4910-932B-1A91029E7D35}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75AA646C-0437-4910-932B-1A91029E7D35}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA2FC1B5-CA80-47FA-82F3-6E086BE62660}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA2FC1B5-CA80-47FA-82F3-6E086BE62660}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA2FC1B5-CA80-47FA-82F3-6E086BE62660}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA2FC1B5-CA80-47FA-82F3-6E086BE62660}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

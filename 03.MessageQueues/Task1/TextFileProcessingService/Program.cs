@@ -8,7 +8,7 @@ namespace TextFileProcessingService
         {
             Console.WriteLine("Text file processing service has started...");
 
-            Client.Subscribe("txtProcessingQueue", ".txt");
+            Client.Subscribe("txtProcessingQueue", ".txt", ".txt");
         }
     }
 }
