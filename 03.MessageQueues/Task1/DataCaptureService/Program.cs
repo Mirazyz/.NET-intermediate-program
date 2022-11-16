@@ -1,4 +1,5 @@
-﻿using RabbitMQ.Client;
+﻿using BrokerService;
+using RabbitMQ.Client;
 
 namespace DataCaptureService
 {
@@ -7,6 +8,8 @@ namespace DataCaptureService
         public static void Main(string[] args)
         {
             Console.WriteLine("Processing service has started...");
+
+            Broker.CreateExchange();
 
             Watch();
 
@@ -18,7 +21,7 @@ namespace DataCaptureService
         {
             FileSystemWatcher watcher = new()
             {
-                Path = ServiceConstants.FolderPath,
+                Path = ServiceConstants.FolderPathToRead,
                 EnableRaisingEvents = true,
                 Filter = "*.*",
                 NotifyFilter = NotifyFilters.Attributes
