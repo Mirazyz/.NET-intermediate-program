@@ -42,25 +42,46 @@ namespace DataCaptureService
 
         private static void OnChanged(object sender, FileSystemEventArgs e)
         {
-            if (e.ChangeType != WatcherChangeTypes.Changed) return;
+            try
+            {
+                if (e.ChangeType != WatcherChangeTypes.Changed) return;
 
-            Console.WriteLine($"Changed: {e.FullPath}. Sending it over broker.");
+                Console.WriteLine($"Changed: {e.FullPath}. Sending it over broker.");
 
-            Broker.SendFile(e.FullPath);
+                Broker.SendFile(e.FullPath);
+            }
+            catch(Exception ex)
+            {
+                ErrorHandlerService.PrintException(ex);
+            }
         }
 
         private static void OnCreated(object sender, FileSystemEventArgs e)
         {
-            Console.WriteLine($"Created: {e.FullPath}. Sending it over broker.");
-            
-            Broker.SendFile(e.FullPath);
+            try
+            {
+                Console.WriteLine($"Created: {e.FullPath}. Sending it over broker.");
+
+                Broker.SendFile(e.FullPath);
+            }
+            catch(Exception ex)
+            {
+                ErrorHandlerService.PrintException(ex);
+            }
         }
 
         private static void OnDeleted(object sender, FileSystemEventArgs e)
         {
-            Console.WriteLine($"Deleted: {e.FullPath}. Sending it over broker.");
+            try
+            {
+                Console.WriteLine($"Deleted: {e.FullPath}. Sending it over broker.");
 
-            Broker.SendFile(e.FullPath);
+                // Broker.SendFile(e.FullPath);
+            }
+            catch(Exception ex)
+            {
+                ErrorHandlerService.PrintException(ex);
+            }
         }
 
         private static void OnError(object sender, ErrorEventArgs e) =>
