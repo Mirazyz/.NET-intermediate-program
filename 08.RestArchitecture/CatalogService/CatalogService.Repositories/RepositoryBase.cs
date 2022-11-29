@@ -8,7 +8,7 @@ namespace CatalogService.Repositories
 {
     public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : BaseEntity
     {
-        private readonly ApplicationDbContext _context;
+        protected readonly ApplicationDbContext _context;
 
         public RepositoryBase(ApplicationDbContext context)
         {
