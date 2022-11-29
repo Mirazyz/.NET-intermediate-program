@@ -1,67 +1,116 @@
-﻿using CatalogService.Domain.Interfaces.Repositories;
+﻿using CatalogService.Domain.Common;
+using CatalogService.Domain.Exceptions;
+using CatalogService.Domain.Interfaces.Repositories;
+using CatalogService.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace CatalogService.Repositories
 {
-    public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
+    public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : BaseEntity
     {
+        private readonly ApplicationDbContext _context;
+
+        public RepositoryBase(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<IEnumerable<T>> FindAllAsync(int pageSize = 0, int pageNumber = 0)
+        {
+            if (pageSize > 0 && pageNumber > 0)
+            {
+                return await _context.Set<T>()
+                                 .AsNoTracking()
+                                 .Skip(pageSize * (pageNumber - 1))
+                                 .Take(pageSize)
+                                 .OrderBy(x => x.Id)
+                                 .ToListAsync();
+            }
+
+            return await _context.Set<T>()
+                                 .AsNoTracking()
+                                 .ToListAsync();
+        }
+
+        public async Task<T?> FindByIdAsync(int id)
+        {
+            return await _context.Set<T>().FindAsync(id);
+        }
+
         public T Create(T entity)
         {
-            throw new NotImplementedException();
+            return _context.Set<T>().Add(entity).Entity;
         }
 
         public void CreateRange(IEnumerable<T> entities)
         {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(T entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DeleteRange(IEnumerable<T> entities)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DeleteRange(IEnumerable<int> ids)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> EntityExistsAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<T>> FindAllAsync(int pageSize = 15, int pageNumber = 0)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<T?> FindByIdAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> SaveChangesAsync()
-        {
-            throw new NotImplementedException();
+            _context.Set<T>().AddRange(entities);
         }
 
         public void Update(T entity)
         {
-            throw new NotImplementedException();
+            var entityExists = _context.Set<T>().Contains(entity);
+
+            if (!entityExists)
+            {
+                throw new NotFoundDbException($"There is no Entity {typeof(T)} with id: {entity.Id}.");
+            }
+
+            _context.Set<T>().Update(entity);
         }
 
         public void UpdateRange(IEnumerable<T> entities)
         {
-            throw new NotImplementedException();
+            _context.Set<T>().UpdateRange(entities);
+        }
+
+        public void Delete(T entity)
+        {
+            _context.Set<T>().Remove(entity);
+        }
+
+        public void DeleteRange(IEnumerable<T> entities)
+        {
+            _context.Set<T>().RemoveRange(entities);
+        }
+
+        public void Delete(int id)
+        {
+            var entity = _context.Set<T>().Find(id);
+
+            if (entity == null)
+            {
+                throw new NotFoundDbException($"There is no Entity {typeof(T)} with id: {id}.");
+            }
+
+            Delete(entity);
+        }
+
+        public async void DeleteRange(IEnumerable<int> ids)
+        {
+            foreach (var id in ids)
+            {
+                bool entityExists = await EntityExistsAsync(id);
+
+                if (!entityExists)
+                {
+                    throw new Exception($"There is no Entity Type {typeof(T)} with id: {id}.");
+                }
+
+                Delete(id);
+            }
+        }
+
+        public async Task<bool> SaveChangesAsync()
+        {
+            return (await _context.SaveChangesAsync() >= 0);
+        }
+
+        public async Task<bool> EntityExistsAsync(int id)
+        {
+            return await _context.Set<T>()
+                                 .AsNoTracking()
+                                 .FirstOrDefaultAsync(s => s.Id == id) != null;
         }
     }
 }
