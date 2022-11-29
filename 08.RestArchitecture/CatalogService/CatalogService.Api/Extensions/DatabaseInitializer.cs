@@ -60,7 +60,11 @@ namespace CatalogService.Api.Extensions
                 for(int i = 0; i < numberOfItems; i++)
                 {
                     var itemName = _faker.Commerce.ProductName();
-                    items.Add(new Item(itemName, category.Id));
+                    items.Add(new Item()
+                    {
+                        Name = itemName,
+                        CategoryId = category.Id
+                    });
                 }
             }
 

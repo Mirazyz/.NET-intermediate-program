@@ -14,7 +14,7 @@ namespace CatalogService.Infrastructure.Persistence.Configurations
 
             builder.HasOne(i => i.Category)
                 .WithMany(c => c.Items)
-                .HasForeignKey(i => i.Id)
+                .HasForeignKey(i => i.CategoryId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Property(i => i.Name)

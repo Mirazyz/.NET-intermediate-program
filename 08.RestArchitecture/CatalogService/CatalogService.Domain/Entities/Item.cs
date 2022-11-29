@@ -9,6 +9,10 @@ namespace CatalogService.Domain.Entities
         public int CategoryId { get; set; }
         public Category Category { get; set; }
 
+        public Item()
+        {
+        }
+
         public Item(string name, int categoryId)
         {
             Name = name;
