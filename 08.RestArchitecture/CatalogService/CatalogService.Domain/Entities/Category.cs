@@ -4,7 +4,14 @@ namespace CatalogService.Domain.Entities
 {
     public class Category : BaseAuditableEntity
     {
-        public int Id { get; set; }
-        public int MyProperty { get; set; }
+        public string Name { get; set; }
+
+        public ICollection<Item> Items { get; set; }
+
+        public Category(string name)
+        {
+            Name = name;
+            Items = new List<Item>();
+        }
     }
 }
