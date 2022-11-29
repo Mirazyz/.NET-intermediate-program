@@ -5,10 +5,11 @@ using Newtonsoft.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.RegisterAutoMapper();
+
 builder.Services.RegisterRepositories();
 builder.Services.RegisterServices();
 builder.Services.RegisterDatabase(builder.Configuration);
+builder.Services.RegisterAutoMapper();
 
 builder.Services.AddControllers(options =>
 {
