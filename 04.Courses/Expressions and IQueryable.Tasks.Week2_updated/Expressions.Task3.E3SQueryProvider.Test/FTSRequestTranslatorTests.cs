@@ -11,11 +11,22 @@ namespace Expressions.Task3.E3SQueryProvider.Test
         #region SubTask 1 : operands order
 
         [Fact]
-        public void TestBinaryBackOrder()
+        public void TestBinaryBackOrderWhenConstantOnLeft()
         {
             var translator = new ExpressionToFtsRequestTranslator();
             Expression<Func<EmployeeEntity, bool>> expression
                 = employee => "EPRUIZHW006" == employee.Workstation;
+
+            string translated = translator.Translate(expression);
+            Assert.Equal("Workstation:(EPRUIZHW006)", translated);
+        }
+
+        [Fact]
+        public void TestBinaryBackOrderWhenConstantOnRight()
+        {
+            var translator = new ExpressionToFtsRequestTranslator();
+            Expression<Func<EmployeeEntity, bool>> expression
+                = employee => employee.Workstation == "EPRUIZHW006";
 
             string translated = translator.Translate(expression);
             Assert.Equal("Workstation:(EPRUIZHW006)", translated);
