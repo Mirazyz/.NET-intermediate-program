@@ -8,6 +8,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Expressions.Task3.E3SQueryProvider.Models.Entities;
@@ -34,8 +35,22 @@ namespace Expressions.Task3.E3SQueryProvider.Test
               ],
              */
 
-            // todo: create asserts for this test by yourself, because they will depend on your final implementation
-            throw new NotImplementedException("Please implement this test and the appropriate functionality");
+            var expected = new Dictionary<string, List<string>>();
+
+            expected.Add("queries", new List<string>()
+            {
+                "Workstation:(EPRUIZHW006)",
+                "Manager:(John*)"
+            });
+            expected.Add("operators", new List<string>()
+            {
+                "Add"
+            });
+
+
+            var translated = translator.Translate(expression);
+
+            Assert.All(expected, (kvp) => kvp.Value.All(l => l.All(val => val.Equals(translated))));
         }
 
         #endregion
