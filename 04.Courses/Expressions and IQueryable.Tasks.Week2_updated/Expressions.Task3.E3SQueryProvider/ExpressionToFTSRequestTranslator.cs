@@ -33,6 +33,50 @@ namespace Expressions.Task3.E3SQueryProvider
 
                 return node;
             }
+            else if(node.Method.DeclaringType == typeof(String)
+                && node.Method.Name == "StartsWith")
+            {
+                var member = node.Object as MemberExpression;
+                var constant = node.Arguments[0] as ConstantExpression;
+
+                Visit(member);
+                _resultStringBuilder.Append($"({constant.Value}*)");
+
+                return node;
+            }
+            else if(node.Method.DeclaringType == typeof(String)
+                && node.Method.Name == "EndsWith")
+            {
+                var member = node.Object as MemberExpression;
+                var constant = node.Arguments[0] as ConstantExpression;
+
+                Visit(member);
+                _resultStringBuilder.Append($"(*{constant.Value})");
+
+                return node;
+            }
+            else if(node.Method.DeclaringType == (typeof(String))
+                && node.Method.Name == "Contains")
+            {
+                var member = node.Object as MemberExpression;
+                var constant = node.Arguments[0] as ConstantExpression;
+
+                Visit(member);
+                _resultStringBuilder.Append($"(*{constant.Value}*)");
+
+                return node;
+            }
+            else if (node.Method.DeclaringType == (typeof(String))
+                && node.Method.Name == "Equals")
+            {
+                var member = node.Object as MemberExpression;
+                var constant = node.Arguments[0] as ConstantExpression;
+
+                Visit(member);
+                _resultStringBuilder.Append($"({constant.Value})");
+
+                return node;
+            }
             return base.VisitMethodCall(node);
         }
 
@@ -44,9 +88,9 @@ namespace Expressions.Task3.E3SQueryProvider
                     bool memberOnRight = node.Right.NodeType == ExpressionType.MemberAccess;
 
                     Visit(memberOnRight ? node.Right : node.Left);
-                        _resultStringBuilder.Append("(");
+                    _resultStringBuilder.Append("(");
                     Visit(memberOnRight ? node.Left : node.Right);
-                        _resultStringBuilder.Append(")");
+                    _resultStringBuilder.Append(")");
                     break;
 
                 default:
