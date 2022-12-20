@@ -21,9 +21,17 @@ namespace GameOfLife
             timer.Interval = TimeSpan.FromMilliseconds(200);
         }
 
-        private void StartAd()
+        private void StopAds()
         {
-            for (int i = 0; i < 2; i++)
+            for(int i = 0; i < adWindows.Length; i++)
+            {
+                adWindows[i]?.Unsubscribe();
+            }
+        }
+
+        private void StartAds()
+        {
+            for (int i = 0; i < adWindows.Length; i++)
             {
                 if (adWindows[i] == null)
                 {
@@ -33,14 +41,10 @@ namespace GameOfLife
                     adWindows[i].Left = Left + 240;
                     adWindows[i].Show();
                 }
-            }
-        }
-
-        private void StopAd()
-        {
-            for(int i = 0; i < adWindows.Length; i++)
-            {
-                adWindows[i]?.Unsubscribe();
+                else
+                {
+                    adWindows[i].Subscribe();
+                }
             }
         }
 
@@ -59,13 +63,13 @@ namespace GameOfLife
             {
                 timer.Start();
                 ButtonStart.Content = "Stop";
-                StartAd();
+                StartAds();
             }
             else
             {
                 timer.Stop();
                 ButtonStart.Content = "Start";
-                StopAd();
+                StopAds();
             }
         }
 

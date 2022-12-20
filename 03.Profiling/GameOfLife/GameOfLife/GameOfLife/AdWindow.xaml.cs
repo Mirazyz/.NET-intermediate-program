@@ -58,6 +58,13 @@ namespace GameOfLife
         public void Unsubscribe()
         {
             adTimer.Tick -= ChangeAds;
+            adTimer.Stop();
+        }
+
+        public void Subscribe()
+        {
+            adTimer.Tick += ChangeAds;
+            adTimer.Start();
         }
 
         private void ChangeAds(object sender, EventArgs eventArgs)
