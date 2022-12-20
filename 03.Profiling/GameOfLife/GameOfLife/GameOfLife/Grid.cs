@@ -9,7 +9,6 @@ namespace GameOfLife
 {
     class Grid
     {
-
         private int SizeX;
         private int SizeY;
         private Cell[,] cells;
@@ -18,7 +17,6 @@ namespace GameOfLife
         private Canvas drawCanvas;
         private Ellipse[,] cellsVisuals;
 
-        
         public Grid(Canvas c)
         {
             drawCanvas = c;
@@ -42,7 +40,6 @@ namespace GameOfLife
             
         }
 
-
         public void Clear()
         {
             for (int i = 0; i < SizeX; i++)
@@ -53,7 +50,6 @@ namespace GameOfLife
                     cellsVisuals[i, j].Fill = Brushes.Gray;
                 }
         }
-
 
         void MouseMove(object sender, MouseEventArgs e)
         {
@@ -103,7 +99,6 @@ namespace GameOfLife
                     
         }
         
-
         public static bool GetRandomBoolean()
         {
             return rnd.NextDouble() > 0.8;
@@ -128,7 +123,6 @@ namespace GameOfLife
             UpdateGraphics();
         }
         
-
         public void Update()
         {
             bool alive = false;
@@ -138,7 +132,7 @@ namespace GameOfLife
             {
                 for (int j = 0; j < SizeY; j++)
                 {
-//                    nextGenerationCells[i, j] = CalculateNextGeneration(i,j);          // UNOPTIMIZED
+                    // nextGenerationCells[i, j] = CalculateNextGeneration(i,j);          // UNOPTIMIZED
                     CalculateNextGeneration(i, j, ref alive, ref age);   // OPTIMIZED
                     nextGenerationCells[i, j].IsAlive = alive;  // OPTIMIZED
                     nextGenerationCells[i, j].Age = age;  // OPTIMIZED
