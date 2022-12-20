@@ -36,6 +36,14 @@ namespace GameOfLife
             }
         }
 
+        private void StopAd()
+        {
+            for(int i = 0; i < adWindows.Length; i++)
+            {
+                adWindows[i]?.Unsubscribe();
+            }
+        }
+
         private void OnAdWindow_Closed(object sender, EventArgs eventArgs)
         {
             for (int i = 0; i < 2; i++)
@@ -57,6 +65,7 @@ namespace GameOfLife
             {
                 timer.Stop();
                 ButtonStart.Content = "Start";
+                StopAd();
             }
         }
 
