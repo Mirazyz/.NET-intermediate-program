@@ -75,6 +75,8 @@ namespace GameOfLife
 
         private void OnClearButton_Clicked(object sender, RoutedEventArgs e)
         {
+            generationsCounter = 0;
+            lblGenCount.Content = "Generations: " + generationsCounter;
             mainGrid.Clear();
         }
 
